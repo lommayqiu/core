@@ -1005,6 +1005,7 @@ trait Provisioning {
 	 * @return void
 	 */
 	public function adminSendsUserCreationRequestUsingTheProvisioningApi($user, $password) {
+		$user = $this->getActualUsername($user);
 		$password = $this->getActualPassword($password);
 		$bodyTable = new TableNode([['userid', $user], ['password', $password]]);
 		$this->ocsContext->userSendsHTTPMethodToOcsApiEndpointWithBody(
@@ -1847,6 +1848,7 @@ trait Provisioning {
 	 * @throws \Exception
 	 */
 	public function userHasBeenDeleted($user) {
+		$user = $this->getActualUsername($user);
 		if ($this->userExists($user)) {
 			if ($this->isTestingWithLdap() && \in_array($user, $this->ldapCreatedUsers)) {
 				$this->deleteLdapUser($user);
