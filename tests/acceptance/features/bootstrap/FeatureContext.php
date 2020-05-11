@@ -2338,6 +2338,7 @@ class FeatureContext extends BehatVariablesContext {
 	 * then it is returned unmodified
 	 *
 	 * @param string $value
+	 * @param string|null $user
 	 * @param array $functions associative array of functions and parameters to be
 	 *                         called on every replacement string before the
 	 *                         replacement
@@ -2361,7 +2362,7 @@ class FeatureContext extends BehatVariablesContext {
 	 * @return string
 	 */
 	public function substituteInLineCodes(
-		$value, $functions = [], $additionalSubstitutions = []
+		$value, $user = null, $functions = [], $additionalSubstitutions = []
 	) {
 		$substitutions = [
 			[
@@ -2483,6 +2484,14 @@ class FeatureContext extends BehatVariablesContext {
 					"getCommentUrlRegExp"
 				],
 				"parameter" => []
+			],
+			[
+				"code" => "%username%",
+				"function" => [
+					$this,
+					"getActualUsername"
+				],
+				"parameter" => [$user]
 			]
 		];
 
