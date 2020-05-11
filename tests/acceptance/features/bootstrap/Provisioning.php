@@ -1213,6 +1213,9 @@ trait Provisioning {
 	public function userDeletesUserUsingTheProvisioningApi(
 		$user, $anotheruser
 	) {
+		$user = $this->getActualUsername($user);
+		$anotheruser = $this->getActualUsername($anotheruser);
+
 		$this->response = UserHelper::deleteUser(
 			$this->getBaseUrl(),
 			$anotheruser,
@@ -2924,6 +2927,7 @@ trait Provisioning {
 	 * @return void
 	 */
 	public function adminDisablesUserUsingTheProvisioningApi($user) {
+		$user = $this->getActualUsername($user);
 		$this->disableOrEnableUser($this->getAdminUsername(), $user, 'disable');
 	}
 
@@ -2935,6 +2939,7 @@ trait Provisioning {
 	 * @return void
 	 */
 	public function adminHasDisabledUserUsingTheProvisioningApi($user) {
+		$user = $this->getActualUsername($user);
 		$this->disableOrEnableUser($this->getAdminUsername(), $user, 'disable');
 		$this->theHTTPStatusCodeShouldBeSuccess();
 	}
@@ -2948,6 +2953,8 @@ trait Provisioning {
 	 * @return void
 	 */
 	public function userDisablesUserUsingTheProvisioningApi($user, $anotheruser) {
+		$user = $this->getActualUsername($user);
+		$anotheruser = $this->getActualUsername($anotheruser);
 		$this->disableOrEnableUser($user, $anotheruser, 'disable');
 	}
 
@@ -3766,6 +3773,7 @@ trait Provisioning {
 	 * @return void
 	 */
 	public function userShouldBeDisabled($user) {
+		$user = $this->getActualUsername($user);
 		$fullUrl = $this->getBaseUrl()
 			. "/ocs/v{$this->ocsApiVersion}.php/cloud/users/$user";
 		$this->response = HttpRequestHelper::get(
@@ -3784,6 +3792,7 @@ trait Provisioning {
 	 * @return void
 	 */
 	public function useShouldBeEnabled($user) {
+		$user = $this->getActualUsername($user);
 		$fullUrl = $this->getBaseUrl()
 			. "/ocs/v{$this->ocsApiVersion}.php/cloud/users/$user";
 		$this->response = HttpRequestHelper::get(
@@ -4074,6 +4083,9 @@ trait Provisioning {
 	 * @return void
 	 */
 	public function disableOrEnableUser($user, $anotheruser, $action) {
+		$user = $this->getActualUsername($user);
+		$anotheruser = $this->getActualUsername($anotheruser);
+
 		$fullUrl = $this->getBaseUrl()
 			. "/ocs/v{$this->ocsApiVersion}.php/cloud/users/$anotheruser/$action";
 		$this->response = HttpRequestHelper::put(
