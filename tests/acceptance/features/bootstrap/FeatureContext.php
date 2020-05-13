@@ -1684,8 +1684,14 @@ class FeatureContext extends BehatVariablesContext {
 	 * @return string
 	 */
 	public function getPasswordForUser($userName) {
-		$userName = $this->getActualUsername($userName);
+		$usernames = $this->usersToBeReplaced();
 		$userName = $this->normalizeUsername($userName);
+		if (isset($usernames)) {
+			if (isset($usernames[$userName])) {
+				return $usernames[$userName]['password'];
+			}
+		}
+		$userName = $this->getActualUsername($userName);
 		if ($userName === $this->getAdminUsername()) {
 			return (string) $this->getAdminPassword();
 		} elseif (\array_key_exists($userName, $this->createdUsers)) {
@@ -1738,6 +1744,7 @@ class FeatureContext extends BehatVariablesContext {
 	 * @return string|null
 	 */
 	public function getDisplayNameForUser($userName) {
+		$usernames = $this->usersToBeReplaced();
 		$userName = $this->normalizeUsername($userName);
 		if (isset($usernames)) {
 			if (isset($usernames[$userName])) {
