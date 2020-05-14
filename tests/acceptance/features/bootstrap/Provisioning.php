@@ -2128,8 +2128,6 @@ trait Provisioning {
 		$setDefault = true,
 		$skeleton = null
 	) {
-		$user = $this->getActualUsername($user);
-
 		if ($password === null) {
 			$password = $this->getPasswordForUser($user);
 		}
@@ -2149,6 +2147,8 @@ trait Provisioning {
 				$email = \str_replace(["@", " "], "", $user) . '@owncloud.org';
 			}
 		}
+
+		$user = $this->getActualUsername($user);
 
 		if ($method === null && $this->isTestingWithLdap()) {
 			//guess yourself
