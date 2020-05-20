@@ -1385,10 +1385,10 @@ trait Provisioning {
 	public function adminHasChangedTheDisplayNameOfUser(
 		$user, $displayname
 	) {
-		$user = $this->getActualUsername($user);
+		$userActual = $this->getActualUsername($user);
 		if ($this->isTestingWithLdap()) {
 			$this->editLdapUserDisplayName(
-				$user, $displayname
+				$userActual, $displayname
 			);
 		} else {
 			$this->adminChangesTheDisplayNameOfUserUsingKey(
@@ -1459,6 +1459,7 @@ trait Provisioning {
 				. $result->getStatusCode() . " " . $result->getBody()
 			);
 		}
+		$this->createdUsers[$user]["displayname"] = $displayname;
 	}
 
 	/**
