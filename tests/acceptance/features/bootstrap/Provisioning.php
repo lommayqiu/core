@@ -1591,6 +1591,7 @@ trait Provisioning {
 	public function adminHasChangedTheQuotaOfUserTo(
 		$user, $quota
 	) {
+		$user = $this->getActualUsername($user);
 		$this->adminChangesTheQuotaOfUserUsingTheProvisioningApi(
 			$user, $quota
 		);
